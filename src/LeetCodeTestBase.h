@@ -20,7 +20,7 @@ namespace LeetCodeTest
     class Test
     {
     public:
-        static std::shared_ptr<Test> GetInstance();
+        static Test& GetInstance();
 
     public:
         template<class T>
@@ -43,8 +43,17 @@ namespace LeetCodeTest
     };
 }
 
+#define TEST_INIT(testInstName) \
+    LeetCodeTest::Test::GetInstance().SetCategoryName(testInstName)
+
+#define TEST_ADD(testClsName) \
+    GLOBAL_SCOPE_ENTRY_ACTION(LeetCodeTest::Test::GetInstance().Add(LeetCodeTest::Test::CreateInstance<testClsName>()))
+
+#define TEST_RUN_ALL() \
+    LeetCodeTest::Test::GetInstance().Run()
+
 #define TEST_CLASS(name) \
-    struct name : public LeetCodeTest::TestBase 
+    struct name : public LeetCodeTest::TestBase
 
 #define TEST_NAME(name) \
     wchar_t* Name() const { return name; }
@@ -55,11 +64,8 @@ namespace LeetCodeTest
 #define TEST_RUN() \
     BOOL Run() override
 
-#define TEST_INIT(testInstName) \
-    Test::GetInstance()->SetCategoryName(testInstName)
+#define TEST_BEGIN(name) \
+    namespace _namespace##name{ TEST_CLASS(name)
 
-#define TEST_ADD(testClsName) \
-    Test::GetInstance()->Add(Test::CreateInstance<testClsName>())
-
-#define TEST_RUN_ALL() \
-    Test::GetInstance()->Run()
+#define TEST_END(name) \
+    ;TEST_ADD(name);}

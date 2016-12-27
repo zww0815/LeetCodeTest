@@ -150,7 +150,8 @@ Mutex g_Mutex;
 LogHelper::LogHelper()
 {
     _wsetlocale(LC_ALL, L"chs");
-    SetOutHandle(LogOutType_NoOut);
+    SetOutHandle(LogOutType_ToStdout);
+    SetLogLevel(LogLevelType_All);
 }
 
 LogHelper::~LogHelper()

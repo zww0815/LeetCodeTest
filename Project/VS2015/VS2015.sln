@@ -6,10 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "VS2015\VS2015.vcxproj", "{C9E8E7D9-5155-441F-88C7-9481A2BE12DB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Leetcode", "Leetcode", "{9818F537-770A-4BE2-873C-A4604EF12FC5}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\src\Leetcode\LeetcodeInc.hpp = ..\..\src\Leetcode\LeetcodeInc.hpp
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DP", "DP", "{5D96DCAA-6CB4-4A91-8F0A-C085A27141A9}"
 	ProjectSection(SolutionItems) = preProject
+		..\..\src\Leetcode\DP\53. Maximum Subarray.hpp = ..\..\src\Leetcode\DP\53. Maximum Subarray.hpp
 		..\..\src\Leetcode\DP\64. Minimum Path Sum.hpp = ..\..\src\Leetcode\DP\64. Minimum Path Sum.hpp
+		..\..\src\Leetcode\DP\test_53. Maximum Subarray.hpp = ..\..\src\Leetcode\DP\test_53. Maximum Subarray.hpp
 		..\..\src\Leetcode\DP\test_64. Minimum Path Sum.hpp = ..\..\src\Leetcode\DP\test_64. Minimum Path Sum.hpp
 	EndProjectSection
 EndProject

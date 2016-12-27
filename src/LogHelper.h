@@ -259,34 +259,37 @@ namespace LogHelperUtil
     #define LOGFMTE( fmt, ...)   LOG_FORMAT(LogHelperUtil::LogLevelType::LogLevelType_Error, fmt, ##__VA_ARGS__)
 
     template<typename ActionType>
-    class ScopeExit
+    class ScopeOptions
     {
     public:
-        explicit ScopeExit(ActionType const& action, ULONG ulLineNo)
+        explicit ScopeOptions(ActionType const& action, ULONG ulLineNo, bool fIsEnableEntryAction = false)
             : m_strFuncName(L"")
             , m_ulLineNo(ulLineNo)
             , m_Action(action)
+            , _fIsEnableEntryAction(fIsEnableEntryAction)
         {
             ScopeEntryOpts();
         }
 
-        explicit ScopeExit(const std::wstring& funcName, ULONG ulLineNo)
+        explicit ScopeOptions(const std::wstring& funcName, ULONG ulLineNo, bool fIsEnableEntryAction = false)
             : m_strFuncName(funcName)
             , m_ulLineNo(ulLineNo)
             , m_Action(nullptr)
+            , _fIsEnableEntryAction(fIsEnableEntryAction)
         {
             ScopeEntryOpts();
         }
 
-        explicit ScopeExit(const std::wstring& funcName, ULONG ulLineNo, ActionType const& action)
+        explicit ScopeOptions(const std::wstring& funcName, ULONG ulLineNo, ActionType const& action, bool fIsEnableEntryAction = false)
             : m_strFuncName(funcName)
             , m_ulLineNo(ulLineNo)
             , m_Action(action)
+            , _fIsEnableEntryAction(fIsEnableEntryAction)
         {
             ScopeEntryOpts();
         }
 
-        ~ScopeExit()
+        ~ScopeOptions()
         {
             ScopeExitOpts();
         }
@@ -303,10 +306,20 @@ namespace LogHelperUtil
                 LogHelperSingleton::GetInstance().Write(LogHelperUtil::LogLevelType_Debug, tmpbuf);
             }
             startTime = clock();
+
+            if (_fIsEnableEntryAction && m_Action)
+            {
+                m_Action();
+            }
         }
 
         void ScopeExitOpts()
         {
+            if (_fIsEnableEntryAction)
+            {
+                return;
+            }
+
             if (m_Action)
             {
                 m_Action();
@@ -333,6 +346,7 @@ namespace LogHelperUtil
         ULONG m_ulLineNo;
         clock_t startTime;
         clock_t endTime;
+        bool _fIsEnableEntryAction; // Default is false.
     };
 
     #define _TSTRINGIZE(x)  _T(_STRINGIZE(x))
@@ -344,15 +358,25 @@ namespace LogHelperUtil
         + (name) + L"@line" + _TSTRINGIZE(line)
 
     #define SCOPE_EXIT_ACTION(expr)                                                                    \
-        LogHelperUtil::ScopeExit<std::function<void()>>                                                \
+        LogHelperUtil::ScopeOptions<std::function<void()>>                                             \
         SCOPE_INSTANCE_END_LINENAME(instance, __LINE__)(SCOPE_LAMBDA_LINENAME(__FUNCTIONW__, __LINE__),\
+        __LINE__, [&](){expr;});
+
+    #define GLOBAL_SCOPE_ENTRY_ACTION(expr)                                                               \
+        LogHelperUtil::ScopeOptions<std::function<void()>>                                                \
+        SCOPE_INSTANCE_END_LINENAME(instance, __LINE__)(SCOPE_LAMBDA_LINENAME(L"_globalFunc_", __LINE__), \
+        __LINE__, [&](){expr;}, true);
+
+    #define GLOBAL_SCOPE_EXIT_ACTION(expr)                                                                \
+        LogHelperUtil::ScopeOptions<std::function<void()>>                                                \
+        SCOPE_INSTANCE_END_LINENAME(instance, __LINE__)(SCOPE_LAMBDA_LINENAME(L"_globalFunc_", __LINE__), \
         __LINE__, [&](){expr;});
 
     #define DEBUG_FLAG
     #ifdef DEBUG_FLAG
         #define DEBUG_INFO  LOGFMTD
         #define DEBUG_FUNCTION()                                                                          \
-            const LogHelperUtil::ScopeExit<std::function<void()>>                                         \
+            const LogHelperUtil::ScopeOptions<std::function<void()>>                                      \
             SCOPE_INSTANCE_END_LINENAME(instance, __LINE__)(std::wstring(__FUNCTIONW__), __LINE__);
     #else
         #define DEBUG_INFO(Fmt, ...)

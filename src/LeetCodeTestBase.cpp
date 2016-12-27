@@ -9,9 +9,10 @@ using namespace LeetCodeTest;
 std::map<std::wstring, VectorTestsType> Test::_tests;
 std::wstring Test::_curTestInstName;
 
-std::shared_ptr<Test> Test::GetInstance()
+Test& Test::GetInstance()
 {
-    return std::make_shared<Test>();
+    static Test testInst;
+    return testInst;
 }
 
 void Test::SetCategoryName(const std::wstring& categoryName)
@@ -27,6 +28,12 @@ void Test::Add(SpTestBaseType test)
 void Test::Run(const std::wstring& testInstName)
 {
     BOOL result = 0;
+    
+    if (!testInstName.empty())
+    {
+        PRINT_INFO_COLOR_YELLOW(L"==============\nCurrent test instance name: %s\n", testInstName.c_str());
+    }
+
     auto foundResult = _tests.find(testInstName);
     if (foundResult == _tests.end())
     {
@@ -34,17 +41,19 @@ void Test::Run(const std::wstring& testInstName)
         return;
     }
 
-    PRINT_INFO_COLOR_YELLOW(L"==============\nCurrent test instance name: %s\n", testInstName.c_str());
-
     for (auto item : foundResult->second)
     {
         if (item != nullptr)
         {
-            std::wstring name = item->Name();
-            std::wstring desc = item->Desc();
+            if (item->Name())
+            {
+                PRINT_INFO_COLOR_YELLOW(L"LeetCode Name: \n%s\n\n", item->Name());
+            }
 
-            PRINT_INFO_COLOR_YELLOW(L"LeetCode Name: \n%s\n\n", name.c_str());
-            PRINT_INFO_COLOR_YELLOW(L"LeetCode Desc: \n%s\n\n", desc.c_str());
+            if (item->Desc())
+            {
+                PRINT_INFO_COLOR_YELLOW(L"LeetCode Desc: \n%s\n\n", item->Desc());
+            }
 
             result = item->Run();
             if (FALSE == result)
