@@ -89,7 +89,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>../../../src;../../../src/leetcode/dp;../../../src/leetcode;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../src;../../../src/leetcode/dp;../../../src/leetcode;.</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -151,14 +151,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\src\ColorConsole.h" />
-    <ClInclude Include="..\..\..\src\LeetCodeTestBase.h" />
+    <ClInclude Include="..\..\..\src\UnitTest.h" />
     <ClInclude Include="..\..\..\src\LogHelper.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\ColorConsole.cpp" />
-    <ClCompile Include="..\..\..\src\LeetCodeTestBase.cpp" />
+    <ClCompile Include="..\..\..\src\UnitTest.cpp" />
     <ClCompile Include="..\..\..\src\LogHelper.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

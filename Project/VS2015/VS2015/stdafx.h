@@ -18,6 +18,6 @@
 #include <algorithm>
 
 #include "LogHelper.h"
-#include "LeetCodeTestBase.h"
+#include "UnitTest.h"
 
 

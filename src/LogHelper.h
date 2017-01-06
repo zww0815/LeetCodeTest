@@ -72,8 +72,8 @@ namespace LogHelperUtil
         int Write(int logLevel,
             const wchar_t* logBuf);
 
-        int WriteWithColor(const char* buf, ConsoleColorTyoe color);
-        int WriteWithColor(const wchar_t* buf, ConsoleColorTyoe color);
+        int WriteWithColor(const char* buf, ConsoleColorType color);
+        int WriteWithColor(const wchar_t* buf, ConsoleColorType color);
 
         int WriteWithDetailInfo(int logLevel,
             const char* pSrcFileName,
@@ -91,13 +91,13 @@ namespace LogHelperUtil
         void Close();
 
     private:
-        ConsoleColorTyoe sNormalTextColor;
-        ConsoleColorTyoe sWarnTextColor;
-        ConsoleColorTyoe sErrorTextColor;
-        ConsoleColorTyoe sDebugTextColor;
+        ConsoleColorType sNormalTextColor;
+        ConsoleColorType sWarnTextColor;
+        ConsoleColorType sErrorTextColor;
+        ConsoleColorType sDebugTextColor;
 
-        ConsoleColorTyoe sTextColor;
-        ConsoleColorTyoe sBackColor;
+        ConsoleColorType sTextColor;
+        ConsoleColorType sBackColor;
 
         std::wstring _wstrLogFileFullPath;
         std::wstring _wstrLogName;
@@ -169,42 +169,6 @@ namespace LogHelperUtil
     #define LOG_SET_LOG_DIR(dirName) \
     LogHelperUtil::LogHelperSingleton::GetInstance().SetLogDir(dirName);
 
-    #define PRINT_INFO_COLOR_RED(strformat, ...) do {\
-        ZeroMemory(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength);\
-        _snwprintf_s(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength, _TRUNCATE, strformat, ##__VA_ARGS__); \
-        LogHelperUtil::LogHelperSingleton::GetInstance().WriteWithColor(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, ConsoleColorTyoe::red); \
-    } while (0);
-
-    #define PRINT_INFO_COLOR_RED_A(strformat, ...) do {\
-        ZeroMemory(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength);\
-        _snprintf_s(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength, _TRUNCATE, strformat, ##__VA_ARGS__); \
-        LogHelperUtil::LogHelperSingleton::GetInstance().WriteWithColor(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, ConsoleColorTyoe::red); \
-    } while (0);
-
-    #define PRINT_INFO_COLOR_GREEN(strformat, ...) do {\
-        ZeroMemory(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength);\
-        _snwprintf_s(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength, _TRUNCATE, strformat, ##__VA_ARGS__); \
-        LogHelperUtil::LogHelperSingleton::GetInstance().WriteWithColor(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, ConsoleColorTyoe::green); \
-    } while (0);
-
-    #define PRINT_INFO_COLOR_GREEN_A(strformat, ...) do {\
-        ZeroMemory(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength);\
-        _snprintf_s(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength, _TRUNCATE, strformat, ##__VA_ARGS__); \
-        LogHelperUtil::LogHelperSingleton::GetInstance().WriteWithColor(LogHelperUtil::LogHelperSingleton::LogHelperSingleton::c_rgcsLogInfoBuffer, ConsoleColorTyoe::green); \
-    } while (0);
-
-    #define PRINT_INFO_COLOR_YELLOW(strformat, ...) do {\
-        ZeroMemory(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength);\
-        _snwprintf_s(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength, _TRUNCATE, strformat, ##__VA_ARGS__); \
-        LogHelperUtil::LogHelperSingleton::GetInstance().WriteWithColor(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, ConsoleColorTyoe::yellow); \
-    } while (0);
-
-    #define PRINT_INFO_COLOR_YELLOW_A(strformat, ...) do {\
-        ZeroMemory(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength);\
-        _snprintf_s(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength, _TRUNCATE, strformat, ##__VA_ARGS__); \
-        LogHelperUtil::LogHelperSingleton::GetInstance().WriteWithColor(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, ConsoleColorTyoe::yellow); \
-    } while (0);
-
     //define yourself color out macro.
     #define PRINT_INFO_COLOR(color, strformat, ...) do {\
         ZeroMemory(LogHelperUtil::LogHelperSingleton::c_rgwcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength);\
@@ -217,6 +181,24 @@ namespace LogHelperUtil
         _snprintf_s(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, LogHelperUtil::sc_nStrBufLength, _TRUNCATE, strformat, ##__VA_ARGS__); \
         LogHelperUtil::LogHelperSingleton::GetInstance().WriteWithColor(LogHelperUtil::LogHelperSingleton::c_rgcsLogInfoBuffer, color); \
     } while (0);
+
+    #define PRINT_INFO_COLOR_RED(strformat, ...) \
+        PRINT_INFO_COLOR(ConsoleColorType::red, strformat, ##__VA_ARGS__)
+
+    #define PRINT_INFO_COLOR_RED_A(strformat, ...) \
+        PRINT_INFO_COLOR_A(ConsoleColorType::red, strformat, ##__VA_ARGS__)
+
+    #define PRINT_INFO_COLOR_GREEN(strformat, ...) \
+        PRINT_INFO_COLOR(ConsoleColorType::green, strformat, ##__VA_ARGS__)
+
+    #define PRINT_INFO_COLOR_GREEN_A(strformat, ...) \
+        PRINT_INFO_COLOR_A(ConsoleColorType::green, strformat, ##__VA_ARGS__)
+
+    #define PRINT_INFO_COLOR_YELLOW(strformat, ...) \
+        PRINT_INFO_COLOR(ConsoleColorType::yellow, strformat, ##__VA_ARGS__)
+
+    #define PRINT_INFO_COLOR_YELLOW_A(strformat, ...) do {\
+        PRINT_INFO_COLOR_A(ConsoleColorType::yellow, strformat, ##__VA_ARGS__)
 
     #define Log4k_LOG(level, log, fileName, FuncName, LineNo) \
     if (LogHelperUtil::LogHelperSingleton::GetInstance().IsLogLevel(level))\
@@ -372,12 +354,16 @@ namespace LogHelperUtil
         SCOPE_INSTANCE_END_LINENAME(instance, __LINE__)(SCOPE_LAMBDA_LINENAME(L"_globalFunc_", __LINE__), \
         __LINE__, [&](){expr;});
 
-    #define DEBUG_FLAG
+
+#ifdef _DEBUG
+#define DEBUG_FLAG
+#endif
+
     #ifdef DEBUG_FLAG
         #define DEBUG_INFO  LOGFMTD
         #define DEBUG_FUNCTION()                                                                          \
-            const LogHelperUtil::ScopeOptions<std::function<void()>>                                      \
-            SCOPE_INSTANCE_END_LINENAME(instance, __LINE__)(std::wstring(__FUNCTIONW__), __LINE__);
+                const LogHelperUtil::ScopeOptions<std::function<void()>>                                  \
+                SCOPE_INSTANCE_END_LINENAME(instance, __LINE__)(std::wstring(__FUNCTIONW__), __LINE__);
     #else
         #define DEBUG_INFO(Fmt, ...)
         #define DEBUG_FUNCTION()

@@ -42,7 +42,7 @@ static const wchar_t* const sc_pwcsLogSeverityNames[sc_nSevertiesCount] = {
     L"ERROR"
 };
 
-static const ConsoleColorTyoe sc_eLogConsoleOutColor[sc_nSevertiesCount] = {
+static const ConsoleColorType sc_eLogConsoleOutColor[sc_nSevertiesCount] = {
     dark_cyan,
     dark_red,
     green,
@@ -422,7 +422,7 @@ int LogHelper::Write(int logLevel, const wchar_t* logBuf)
     return 0;
 }
 
-int LogHelper::WriteWithColor(const char* buf, ConsoleColorTyoe color)
+int LogHelper::WriteWithColor(const char* buf, ConsoleColorType color)
 {
     SetTextColor(color);
     Loger(buf, _eMsgOutType);
@@ -430,7 +430,7 @@ int LogHelper::WriteWithColor(const char* buf, ConsoleColorTyoe color)
     return 0;
 }
 
-int LogHelper::WriteWithColor(const wchar_t* buf, ConsoleColorTyoe color)
+int LogHelper::WriteWithColor(const wchar_t* buf, ConsoleColorType color)
 {
     SetTextColor(color);
     Loger(buf, _eMsgOutType);

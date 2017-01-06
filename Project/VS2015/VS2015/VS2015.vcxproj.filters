@@ -27,10 +27,10 @@
     <ClInclude Include="..\..\..\src\ColorConsole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\LeetCodeTestBase.h">
+    <ClInclude Include="..\..\..\src\LogHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\LogHelper.h">
+    <ClInclude Include="..\..\..\src\UnitTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,10 +44,10 @@
     <ClCompile Include="..\..\..\src\ColorConsole.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\LeetCodeTestBase.cpp">
+    <ClCompile Include="..\..\..\src\LogHelper.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\LogHelper.cpp">
+    <ClCompile Include="..\..\..\src\UnitTest.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>

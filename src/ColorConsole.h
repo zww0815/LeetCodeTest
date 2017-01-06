@@ -8,7 +8,7 @@
 #include <strstream>
 #include <iostream>
 
-enum ConsoleColorTyoe
+enum ConsoleColorType
 {
     black = 0,
     dark_blue = 1,
@@ -31,20 +31,20 @@ enum ConsoleColorTyoe
 static HANDLE g_stdConOut;//Standard Output Handle
 static bool g_colorProtect = false;//if g_colorProtect is true, background and text colors will never be the same
 
-static ConsoleColorTyoe g_textCol;   //current text color
-static ConsoleColorTyoe g_backCol;   //current back color
-static ConsoleColorTyoe g_defTextCol;//original text color
-static ConsoleColorTyoe g_defBackCol;//original back color
+static ConsoleColorType g_textCol;   //current text color
+static ConsoleColorType g_backCol;   //current back color
+static ConsoleColorType g_defTextCol;//original text color
+static ConsoleColorType g_defBackCol;//original back color
 
 inline void UpdateColors()
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
     GetConsoleScreenBufferInfo(g_stdConOut, &csbi);
-    g_textCol = ConsoleColorTyoe(csbi.wAttributes & 15);
-    g_backCol = ConsoleColorTyoe((csbi.wAttributes & 0xf0) >> 4);
+    g_textCol = ConsoleColorType(csbi.wAttributes & 15);
+    g_backCol = ConsoleColorType((csbi.wAttributes & 0xf0) >> 4);
 }
 
-inline void SetColor(ConsoleColorTyoe textcolor, ConsoleColorTyoe backcolor)
+inline void SetColor(ConsoleColorType textcolor, ConsoleColorType backcolor)
 {
     if (g_colorProtect && textcolor == backcolor)
     {
@@ -57,7 +57,7 @@ inline void SetColor(ConsoleColorTyoe textcolor, ConsoleColorTyoe backcolor)
     SetConsoleTextAttribute(g_stdConOut, wAttributes);
 }
 
-inline void SetTextColor(ConsoleColorTyoe textColor)
+inline void SetTextColor(ConsoleColorType textColor)
 {
     if (g_colorProtect && textColor == g_backCol)
     {
@@ -69,7 +69,7 @@ inline void SetTextColor(ConsoleColorTyoe textColor)
     SetConsoleTextAttribute(g_stdConOut, wAttributes);
 }
 
-inline void SetBackColor(ConsoleColorTyoe backColor)
+inline void SetBackColor(ConsoleColorType backColor)
 {
     if (g_colorProtect && g_textCol == backColor)
     {
@@ -90,7 +90,7 @@ inline void ConsoleColorInit()
 }
 
 template<class elem, class traits>
-inline std::basic_ostream<elem, traits>& operator<<(std::basic_ostream<elem, traits>& os, ConsoleColorTyoe col)
+inline std::basic_ostream<elem, traits>& operator<<(std::basic_ostream<elem, traits>& os, ConsoleColorType col)
 {
     os.flush();
     SetTextColor(col);
@@ -98,7 +98,7 @@ inline std::basic_ostream<elem, traits>& operator<<(std::basic_ostream<elem, tra
 }
 
 template<class elem, class traits>
-inline std::basic_istream<elem, traits>& operator >> (std::basic_istream<elem, traits>& is, ConsoleColorTyoe col)
+inline std::basic_istream<elem, traits>& operator >> (std::basic_istream<elem, traits>& is, ConsoleColorType col)
 {
     std::basic_ostream<elem, traits>* p = is.tie();
     if (p != NULL)
